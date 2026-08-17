@@ -4,14 +4,7 @@ export const isoDate = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be ISO format YYYY-MM-DD");
 
-export const sectionKeys = [
-  "understand",
-  "recognise",
-  "assess",
-  "treat",
-  "live",
-  "ask",
-] as const;
+export const sectionKeys = ["understand", "recognise", "assess", "treat", "live", "ask"] as const;
 
 export type SectionKey = (typeof sectionKeys)[number];
 
@@ -38,6 +31,7 @@ export const sectionSchema = z.object({
 export const localeContentSchema = z.object({
   title: z.string().min(1),
   summary: z.string().min(1),
+  keyPoints: z.array(z.string().min(1)).min(3).max(5),
   category: z.string().min(1),
   metaTitle: z.string().min(1).max(70),
   metaDescription: z.string().min(1).max(180),
@@ -89,10 +83,7 @@ export const conditionSchema = z
       }
     }
     if (condition.nextReviewDate <= condition.reviewedDate) {
-      requirePublished(
-        ["nextReviewDate"],
-        "Next review date must be after the reviewed date.",
-      );
+      requirePublished(["nextReviewDate"], "Next review date must be after the reviewed date.");
     }
     const today = new Date().toISOString().slice(0, 10);
     if (condition.nextReviewDate < today) {

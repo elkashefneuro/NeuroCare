@@ -37,7 +37,7 @@ function EnglishLibrary() {
           to="/ar"
           lang="ar"
           aria-label={ui.en.switchLanguageLabel}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-border px-4 text-sm font-medium transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-border bg-background px-4 text-sm font-semibold text-primary shadow-sm transition-colors hover:border-accent/35 hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
           {ui.en.switchLanguage}
         </Link>

@@ -1,32 +1,45 @@
 # NeuroCare
 
-NeuroCare is a bilingual (English/Arabic) neurology patient-education library by
-Dr Mohamed Ismaiel, Neurologist, Dubai.
+NeuroCare is a bilingual English–Arabic neurology education library for patients
+and families, authored by Dr Mohamed Ismaiel, Neurologist, Dubai.
 
-This project was built with [Lovable](https://lovable.dev).
+The initial library covers:
 
-## Build with Lovable
+- Stroke and transient ischaemic attack
+- Migraine
+- Epilepsy and seizures
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Each guide follows the same six-part structure: understand, recognise, assess,
+treat, live with it and questions to ask. Content includes dated review metadata,
+patient-level source links and UAE emergency guidance.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Clinical content workflow
+
+Guide content lives in `src/content/conditions/` and is validated against the
+typed schema in `src/content/schema.ts`. The build fails when a published guide
+is missing a language, section, source or valid review date.
+
+Mayo Clinic and Cleveland Clinic are used as patient-communication references.
+Clinical recommendations are checked against current specialty guidance,
+including AHA/ASA, NICE, ILAE, American Headache Society and WHO sources. Source
+wording is paraphrased rather than copied.
+
+Every substantive clinical edit should be reviewed by the named author before
+release.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run check:content
+bun run build
+bun run dev
 ```
 
-## Built with
+## Stack
 
 - TanStack Start
-- TypeScript
-- React
+- React and TypeScript
 - Tailwind CSS
+- Zod content validation
+- GitHub Actions
