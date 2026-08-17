@@ -80,8 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "NeuroCare" },
       {
         name: "description",
-        content:
-          "Bilingual neurology patient guides by Dr Mohamed Ismaiel, Neurologist, Dubai.",
+        content: "Bilingual neurology patient guides by Dr Mohamed Ismaiel, Neurologist, Dubai.",
       },
       { name: "author", content: "Dr Mohamed Ismaiel, Neurologist, Dubai" },
       { property: "og:site_name", content: "NeuroCare" },
@@ -110,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
       <head>
         <HeadContent />
       </head>

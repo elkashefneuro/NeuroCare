@@ -25,9 +25,7 @@ export const Route = createFileRoute("/ar/conditions/$slug")({
         { property: "og:type", content: "article" },
         { property: "og:url", content: `/ar/conditions/${params.slug}` },
         { name: "twitter:card", content: "summary" },
-        ...(condition.status === "published"
-          ? []
-          : [{ name: "robots", content: "noindex" }]),
+        ...(condition.status === "published" ? [] : [{ name: "robots", content: "noindex" }]),
       ],
       links: [
         { rel: "canonical", href: `/ar/conditions/${params.slug}` },
@@ -53,7 +51,7 @@ function ArabicCondition() {
           params={{ slug }}
           lang="en"
           aria-label={ui.ar.switchLanguageLabel}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-border px-4 text-sm font-medium transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-border bg-background px-4 text-sm font-semibold text-primary shadow-sm transition-colors hover:border-accent/35 hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
           {ui.ar.switchLanguage}
         </Link>
@@ -65,7 +63,7 @@ function ArabicCondition() {
         backLink={
           <Link
             to="/ar"
-            className="inline-flex min-h-11 items-center text-sm text-accent underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="inline-flex min-h-11 items-center rounded-lg text-sm font-semibold text-accent underline decoration-accent/35 underline-offset-4 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             {ui.ar.backToLibrary}
           </Link>
