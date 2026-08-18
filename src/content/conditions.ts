@@ -1,4 +1,4 @@
-import { conditionSchema, type Condition } from "./schema";
+import type { Condition } from "./schema";
 
 const stroke = {
   slug: "stroke-and-tia",
@@ -404,29 +404,17 @@ const epilepsy = {
 
 export const rawConditions: Condition[] = [stroke, migraine, epilepsy];
 
-/** Validates every condition; throws with a readable message on failure. */
-export function validateConditions(): Condition[] {
-  const problems: string[] = [];
-  const parsed: Condition[] = [];
-
-  for (const condition of rawConditions) {
-    const result = conditionSchema.safeParse(condition);
-    if (result.success) {
-      parsed.push(result.data);
-    } else {
-      for (const issue of result.error.issues) {
-        problems.push(`${condition.slug}: ${issue.path.join(".")} — ${issue.message}`);
-      }
-    }
-  }
-
-  if (problems.length > 0) {
-    throw new Error(`Content validation failed:\n - ${problems.join("\n - ")}`);
-  }
-  return parsed;
-}
-
-export const conditions = validateConditions();
+/**
+ * Runtime content used by the app.
+ *
+ * Deliberately does NOT re-run schema validation: `validateConditions()` in
+ * ./validate.ts is a build-time gate (vite.config.ts + `bun run check:content`),
+ * so a schema failure stops a release rather than throwing inside a request.
+ * Validating here instead would (a) ship zod to every browser and (b) turn a
+ * time-based rule such as the review-due check into a site-wide 500 the moment
+ * a guide's next review date passed in production.
+ */
+export const conditions: Condition[] = rawConditions;
 
 export function getCondition(slug: string): Condition | undefined {
   return conditions.find((condition) => condition.slug === slug);

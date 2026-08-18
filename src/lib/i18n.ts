@@ -27,9 +27,9 @@ export const ui = {
     noResults: "No conditions match your search.",
     statusPublished: "Published",
     statusReview: "In clinical review",
-    reviewNotice:
-      "This guide is in clinical review. It is not yet published as patient guidance.",
+    reviewNotice: "This guide is in clinical review. It is not yet published as patient guidance.",
     readTime: (n: number) => `${n} min read`,
+    readTimeLabel: "Reading time",
     author_: "Author",
     reviewed: "Reviewed",
     nextReview: "Next review",
@@ -42,6 +42,12 @@ export const ui = {
       "Short, carefully reviewed explanations of common neurological conditions, written for patients and families in English and Arabic.",
     conditionsHeading: "Conditions",
     sectionsLabel: "On this page",
+    results: (n: number) => (n === 1 ? "1 condition shown" : `${n} conditions shown`),
+    reviewOverdue:
+      "This guide has passed its scheduled review date and is being updated. Check anything time-sensitive with your doctor.",
+    notFoundTitle: "Page not found",
+    notFoundBody: "This page does not exist, or it has moved.",
+    goHome: "Go to the library",
   },
   ar: {
     siteName: "NeuroCare",
@@ -59,9 +65,9 @@ export const ui = {
     noResults: "لا توجد حالات مطابقة لبحثك.",
     statusPublished: "منشور",
     statusReview: "قيد المراجعة الإكلينيكية",
-    reviewNotice:
-      "هذا الدليل قيد المراجعة الإكلينيكية ولم يُنشر بعد كإرشاد للمرضى.",
+    reviewNotice: "هذا الدليل قيد المراجعة الإكلينيكية ولم يُنشر بعد كإرشاد للمرضى.",
     readTime: (n: number) => `قراءة ${n} دقائق`,
+    readTimeLabel: "مدة القراءة",
     author_: "المؤلف",
     reviewed: "تاريخ المراجعة",
     nextReview: "المراجعة القادمة",
@@ -74,6 +80,12 @@ export const ui = {
       "شروحات موجزة ومراجَعة بعناية لأكثر الحالات العصبية شيوعاً، مكتوبة للمرضى وذويهم بالعربية والإنجليزية.",
     conditionsHeading: "الحالات",
     sectionsLabel: "في هذه الصفحة",
+    results: (n: number) => `عدد الحالات المعروضة: ${n}`,
+    reviewOverdue:
+      "تجاوز هذا الدليل تاريخ مراجعته المقرر وهو قيد التحديث. راجع طبيبك بشأن أي معلومة حساسة زمنياً.",
+    notFoundTitle: "الصفحة غير موجودة",
+    notFoundBody: "هذه الصفحة غير موجودة أو تم نقلها.",
+    goHome: "الانتقال إلى المكتبة",
   },
 } as const;
 
@@ -84,3 +96,23 @@ export function formatDate(date: string, locale: Locale) {
     year: "numeric",
   }).format(new Date(`${date}T00:00:00Z`));
 }
+
+/**
+ * Locale implied by a URL path. Used by the document shell, which renders above
+ * the locale-specific routes and so cannot read the locale from a route param.
+ * Anything outside `/ar` falls back to English, matching the `/` redirect.
+ */
+export function localeFromPathname(pathname: string): Locale {
+  return pathname === "/ar" || pathname.startsWith("/ar/") ? "ar" : "en";
+}
+
+/** The locale a language switch should lead to. */
+export function otherLocale(locale: Locale): Locale {
+  return locale === "ar" ? "en" : "ar";
+}
+
+/** BCP 47 tag used for `og:locale`. */
+export const openGraphLocale: Record<Locale, string> = {
+  en: "en_GB",
+  ar: "ar_AE",
+};

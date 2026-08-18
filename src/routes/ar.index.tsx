@@ -1,7 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { LibraryIndex } from "@/components/library/LibraryIndex";
-import { ui } from "@/lib/i18n";
+import { openGraphLocale, ui } from "@/lib/i18n";
+import { absoluteUrl, canonicalUrl } from "@/lib/site";
+import { libraryJsonLd } from "@/lib/structured-data";
+import { conditions } from "@/content/conditions";
 
 const title = "NeuroCare — أدلة للمرضى بالعربية والإنجليزية";
 const description =
@@ -15,14 +18,18 @@ export const Route = createFileRoute("/ar/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/ar" },
+      { property: "og:site_name", content: ui.ar.siteName },
+      { property: "og:locale", content: openGraphLocale.ar },
+      { property: "og:locale:alternate", content: openGraphLocale.en },
+      ...(absoluteUrl("/ar") ? [{ property: "og:url", content: absoluteUrl("/ar")! }] : []),
       { name: "twitter:card", content: "summary" },
+      { "script:ld+json": libraryJsonLd(conditions, "ar") },
     ],
     links: [
-      { rel: "canonical", href: "/ar" },
-      { rel: "alternate", hrefLang: "ar", href: "/ar" },
-      { rel: "alternate", hrefLang: "en", href: "/en" },
-      { rel: "alternate", hrefLang: "x-default", href: "/en" },
+      { rel: "canonical", href: canonicalUrl("/ar") },
+      { rel: "alternate", hrefLang: "ar", href: canonicalUrl("/ar") },
+      { rel: "alternate", hrefLang: "en", href: canonicalUrl("/en") },
+      { rel: "alternate", hrefLang: "x-default", href: canonicalUrl("/en") },
     ],
   }),
   component: ArabicLibrary,

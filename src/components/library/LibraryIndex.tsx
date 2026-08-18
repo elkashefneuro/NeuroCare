@@ -1,7 +1,25 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { conditions } from "@/content/conditions";
-import type { Locale } from "@/content/schema";
+import type { Block, Condition, Locale } from "@/content/schema";
 import { categories, ui } from "@/lib/i18n";
+
+function blockText(block: Block): string {
+  if (block.type === "paragraph") return block.text;
+  if (block.type === "list") return block.items.join(" ");
+  return [block.title, ...block.items].join(" ");
+}
+
+function buildHaystack(condition: Condition): string {
+  const parts: string[] = [];
+  for (const locale of ["en", "ar"] as const) {
+    const content = condition[locale];
+    parts.push(content.title, content.summary, content.category);
+    for (const section of content.sections ?? []) {
+      parts.push(section.heading, ...section.blocks.map(blockText));
+    }
+  }
+  return parts.join(" ").toLowerCase();
+}
 
 export function LibraryIndex({
   locale,
@@ -14,34 +32,31 @@ export function LibraryIndex({
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
 
+  // Built once, not per keystroke: for each guide, every searchable string in
+  // both languages flattened into one lowercased blob. Searching the section
+  // bodies as well as the card fields means a patient can find a guide by a
+  // symptom the summary never mentions ("slurred speech", "تنميل").
+  const haystacks = useMemo(
+    () => new Map(conditions.map((condition) => [condition.slug, buildHaystack(condition)])),
+    [],
+  );
+
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     return conditions.filter((condition) => {
-      const matchesCategory = category === "all" || condition.categoryId === category;
-      if (!matchesCategory) return false;
-      if (!q) return true;
-      const haystack = [
-        condition.en.title,
-        condition.en.summary,
-        condition.en.category,
-        condition.ar.title,
-        condition.ar.summary,
-        condition.ar.category,
-      ]
-        .join(" ")
-        .toLowerCase();
-      return haystack.includes(q);
+      if (category !== "all" && condition.categoryId !== category) return false;
+      if (terms.length === 0) return true;
+      const haystack = haystacks.get(condition.slug) ?? "";
+      return terms.every((term) => haystack.includes(term));
     });
-  }, [query, category]);
+  }, [query, category, haystacks]);
 
   return (
     <div>
       <h1 className="font-serif text-3xl font-semibold tracking-tight text-primary sm:text-4xl">
         {t.libraryHeading}
       </h1>
-      <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">
-        {t.intro}
-      </p>
+      <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">{t.intro}</p>
 
       <section aria-labelledby="library-heading" className="mt-10">
         <h2 id="library-heading" className="sr-only">
@@ -64,33 +79,36 @@ export function LibraryIndex({
           <fieldset className="mt-4">
             <legend className="text-sm font-medium">{t.filterLabel}</legend>
             <div className="mt-2 flex flex-wrap gap-2">
-              {[{ id: "all", label: t.allCategories }, ...categories.map((c) => ({ id: c.id, label: c[locale] }))].map(
-                (option) => {
-                  const selected = category === option.id;
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      aria-pressed={selected}
-                      onClick={() => setCategory(option.id)}
-                      className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
-                        selected
-                          ? "border-accent bg-accent text-accent-foreground"
-                          : "border-border text-foreground hover:bg-secondary"
-                      }`}
-                    >
-                      {option.label}
-                    </button>
-                  );
-                },
-              )}
+              {[
+                { id: "all", label: t.allCategories },
+                ...categories.map((c) => ({ id: c.id, label: c[locale] })),
+              ].map((option) => {
+                const selected = category === option.id;
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => setCategory(option.id)}
+                    className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+                      selected
+                        ? "border-accent bg-accent text-accent-foreground"
+                        : "border-border text-foreground hover:bg-secondary"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
             </div>
           </fieldset>
         </div>
 
-        {results.length === 0 ? (
-          <p className="mt-8 text-muted-foreground">{t.noResults}</p>
-        ) : (
+        <p role="status" aria-live="polite" className="mt-6 text-sm text-muted-foreground">
+          {results.length === 0 ? t.noResults : t.results(results.length)}
+        </p>
+
+        {results.length > 0 && (
           <ul className="mt-8 space-y-4">
             {results.map((condition) => {
               const content = condition[locale];

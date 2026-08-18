@@ -2,7 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { ConditionArticle } from "@/components/library/ConditionArticle";
 import { getCondition } from "@/content/conditions";
-import { ui } from "@/lib/i18n";
+import { openGraphLocale, ui } from "@/lib/i18n";
+import { absoluteUrl, canonicalUrl } from "@/lib/site";
+import { conditionJsonLd } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/en/conditions/$slug")({
   loader: ({ params }) => {
@@ -16,6 +18,9 @@ export const Route = createFileRoute("/en/conditions/$slug")({
     }
     const { condition } = loaderData;
     const { metaTitle, metaDescription } = condition.en;
+    const selfPath = `/en/conditions/${params.slug}`;
+    const otherPath = `/ar/conditions/${params.slug}`;
+    const defaultPath = `/en/conditions/${params.slug}`;
     return {
       meta: [
         { title: metaTitle },
@@ -23,17 +28,20 @@ export const Route = createFileRoute("/en/conditions/$slug")({
         { property: "og:title", content: metaTitle },
         { property: "og:description", content: metaDescription },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `/en/conditions/${params.slug}` },
+        { property: "og:site_name", content: ui.en.siteName },
+        { property: "og:locale", content: openGraphLocale.en },
+        { property: "og:locale:alternate", content: openGraphLocale.ar },
+        ...(absoluteUrl(selfPath) ? [{ property: "og:url", content: absoluteUrl(selfPath)! }] : []),
         { name: "twitter:card", content: "summary" },
         ...(condition.status === "published"
-          ? []
+          ? [{ "script:ld+json": conditionJsonLd(condition, "en") }]
           : [{ name: "robots", content: "noindex" }]),
       ],
       links: [
-        { rel: "canonical", href: `/en/conditions/${params.slug}` },
-        { rel: "alternate", hrefLang: "en", href: `/en/conditions/${params.slug}` },
-        { rel: "alternate", hrefLang: "ar", href: `/ar/conditions/${params.slug}` },
-        { rel: "alternate", hrefLang: "x-default", href: `/en/conditions/${params.slug}` },
+        { rel: "canonical", href: canonicalUrl(selfPath) },
+        { rel: "alternate", hrefLang: "en", href: canonicalUrl(selfPath) },
+        { rel: "alternate", hrefLang: "ar", href: canonicalUrl(otherPath) },
+        { rel: "alternate", hrefLang: "x-default", href: canonicalUrl(defaultPath) },
       ],
     };
   },

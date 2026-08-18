@@ -4,14 +4,7 @@ export const isoDate = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be ISO format YYYY-MM-DD");
 
-export const sectionKeys = [
-  "understand",
-  "recognise",
-  "assess",
-  "treat",
-  "live",
-  "ask",
-] as const;
+export const sectionKeys = ["understand", "recognise", "assess", "treat", "live", "ask"] as const;
 
 export type SectionKey = (typeof sectionKeys)[number];
 
@@ -50,20 +43,30 @@ export const sourceSchema = z.object({
   url: z.string().url(),
 });
 
-export const conditionSchema = z
-  .object({
-    slug: z.string().regex(/^[a-z0-9-]+$/),
-    categoryId: z.enum(["vascular", "headache", "seizures"]),
-    status: z.enum(["published", "in-review"]),
-    author: z.string().min(1),
-    reviewedDate: isoDate,
-    nextReviewDate: isoDate,
-    readTimeMinutes: z.number().int().positive(),
-    sources: z.array(sourceSchema),
-    en: localeContentSchema,
-    ar: localeContentSchema,
-  })
-  .superRefine((condition, ctx) => {
+/** Shape of a condition. Structural rules only — see `conditionSchema` for the publish gate. */
+export const conditionBaseSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9-]+$/),
+  categoryId: z.enum(["vascular", "headache", "seizures"]),
+  status: z.enum(["published", "in-review"]),
+  author: z.string().min(1),
+  reviewedDate: isoDate,
+  nextReviewDate: isoDate,
+  readTimeMinutes: z.number().int().positive(),
+  sources: z.array(sourceSchema),
+  en: localeContentSchema,
+  ar: localeContentSchema,
+});
+
+/**
+ * Full publish gate: structure plus the editorial rules that only apply once a
+ * guide is marked `published`.
+ *
+ * `now` is injected rather than read from the ambient clock so the review-due
+ * rule is deterministic and testable, and so callers are explicit about which
+ * point in time they are validating against.
+ */
+export const conditionSchema = (now: Date = new Date()) =>
+  conditionBaseSchema.superRefine((condition, ctx) => {
     if (condition.status !== "published") return;
 
     const requirePublished = (path: (string | number)[], message: string) =>
@@ -89,12 +92,9 @@ export const conditionSchema = z
       }
     }
     if (condition.nextReviewDate <= condition.reviewedDate) {
-      requirePublished(
-        ["nextReviewDate"],
-        "Next review date must be after the reviewed date.",
-      );
+      requirePublished(["nextReviewDate"], "Next review date must be after the reviewed date.");
     }
-    const today = new Date().toISOString().slice(0, 10);
+    const today = now.toISOString().slice(0, 10);
     if (condition.nextReviewDate < today) {
       requirePublished(
         ["nextReviewDate"],
@@ -103,6 +103,6 @@ export const conditionSchema = z
     }
   });
 
-export type Condition = z.infer<typeof conditionSchema>;
+export type Condition = z.infer<typeof conditionBaseSchema>;
 export type LocaleContent = z.infer<typeof localeContentSchema>;
 export type Locale = "en" | "ar";

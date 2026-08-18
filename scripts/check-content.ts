@@ -1,4 +1,4 @@
-import { validateConditions } from "../src/content/conditions";
+import { validateConditions } from "../src/content/validate";
 
 try {
   const conditions = validateConditions();

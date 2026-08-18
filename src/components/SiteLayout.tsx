@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import type { Locale } from "@/content/schema";
 import { dirFor, ui } from "@/lib/i18n";
 
@@ -13,12 +13,9 @@ export function SiteLayout({
   children: ReactNode;
 }) {
   const t = ui[locale];
+  // `lang`/`dir` on <html> are owned by RootShell, which sets them during SSR;
+  // this element repeats them so the subtree is self-describing in isolation.
   const dir = dirFor(locale);
-
-  useEffect(() => {
-    document.documentElement.lang = locale;
-    document.documentElement.dir = dir;
-  }, [locale, dir]);
 
   return (
     <div dir={dir} lang={locale} className="min-h-dvh bg-background font-sans text-foreground">

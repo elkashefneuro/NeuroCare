@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Block, Condition, Locale } from "@/content/schema";
 import { formatDate, ui } from "@/lib/i18n";
+import { isReviewOverdue } from "@/lib/review";
 
 function Blocks({ blocks }: { blocks: Block[] }) {
   return (
@@ -65,6 +66,7 @@ export function ConditionArticle({
   const t = ui[locale];
   const content = condition[locale];
   const published = condition.status === "published";
+  const reviewOverdue = isReviewOverdue(condition);
 
   return (
     <article>
@@ -89,6 +91,15 @@ export function ConditionArticle({
         </p>
       )}
 
+      {published && reviewOverdue && (
+        <p
+          role="status"
+          className="mt-6 rounded-lg border border-destructive bg-destructive/5 p-4 text-sm font-medium text-foreground"
+        >
+          {t.reviewOverdue}
+        </p>
+      )}
+
       {published && (
         <>
           <dl className="mt-8 grid gap-3 rounded-lg border border-border p-5 text-sm sm:grid-cols-2">
@@ -97,7 +108,7 @@ export function ConditionArticle({
               <dd className="font-medium">{condition.author}</dd>
             </div>
             <div>
-              <dt className="text-muted-foreground">{content.category}</dt>
+              <dt className="text-muted-foreground">{t.readTimeLabel}</dt>
               <dd className="font-medium">{t.readTime(condition.readTimeMinutes)}</dd>
             </div>
             <div>
@@ -161,7 +172,10 @@ export function ConditionArticle({
           ))}
 
           {condition.sources.length > 0 && (
-            <section aria-labelledby="sources-heading" className="mt-12 border-t border-border pt-8">
+            <section
+              aria-labelledby="sources-heading"
+              className="mt-12 border-t border-border pt-8"
+            >
               <h2 id="sources-heading" className="font-serif text-2xl font-semibold text-primary">
                 {t.sources}
               </h2>

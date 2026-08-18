@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,22 +12,33 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { dirFor, localeFromPathname, ui } from "../lib/i18n";
+
+/** The locale implied by the URL currently being rendered. */
+function useCurrentLocale() {
+  return useRouterState({ select: (state) => localeFromPathname(state.location.pathname) });
+}
 
 function NotFoundComponent() {
+  const locale = useCurrentLocale();
+  const t = ui[locale];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div
+      dir={dirFor(locale)}
+      lang={locale}
+      className="flex min-h-screen items-center justify-center bg-background px-4"
+    >
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">{t.notFoundTitle}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{t.notFoundBody}</p>
         <div className="mt-6">
           <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            to={locale === "ar" ? "/ar" : "/en"}
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            {t.goHome}
           </Link>
         </div>
       </div>
@@ -80,8 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "NeuroCare" },
       {
         name: "description",
-        content:
-          "Bilingual neurology patient guides by Dr Mohamed Ismaiel, Neurologist, Dubai.",
+        content: "Bilingual neurology patient guides by Dr Mohamed Ismaiel, Neurologist, Dubai.",
       },
       { name: "author", content: "Dr Mohamed Ismaiel, Neurologist, Dubai" },
       { property: "og:site_name", content: "NeuroCare" },
@@ -99,7 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -109,8 +120,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Rendered server-side, so the Arabic pages ship `lang="ar" dir="rtl"` on the
+  // document itself rather than only after hydration — screen readers pick the
+  // right voice and crawlers see a correctly declared Arabic document.
+  const locale = useCurrentLocale();
+
   return (
-    <html lang="en">
+    <html lang={locale} dir={dirFor(locale)}>
       <head>
         <HeadContent />
       </head>
