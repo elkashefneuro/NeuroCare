@@ -67,6 +67,10 @@ export function ConditionArticle({
   const content = condition[locale];
   const published = condition.status === "published";
   const reviewOverdue = isReviewOverdue(condition);
+  const sections = content.sections ?? [];
+  // A drafted but unapproved guide still renders its body, behind a prominent
+  // notice, so the clinic can review it in place. These pages stay `noindex`.
+  const hasDraftBody = !published && sections.length > 0;
 
   return (
     <article>
@@ -83,12 +87,21 @@ export function ConditionArticle({
       </p>
 
       {!published && (
-        <p
-          role="status"
-          className="mt-6 rounded-lg border border-border bg-secondary p-4 text-sm font-medium text-foreground"
+        <aside
+          role="note"
+          aria-labelledby="draft-notice-heading"
+          className="mt-6 rounded-lg border-2 border-destructive bg-destructive/5 p-5"
         >
-          {t.statusReview} — {t.reviewNotice}
-        </p>
+          <p
+            id="draft-notice-heading"
+            className="font-serif text-lg font-semibold text-destructive"
+          >
+            {hasDraftBody ? t.draftNoticeTitle : t.statusReview}
+          </p>
+          <p className="mt-2 text-sm leading-7 text-foreground">
+            {hasDraftBody ? t.draftNotice : t.reviewNotice}
+          </p>
+        </aside>
       )}
 
       {published && reviewOverdue && (
@@ -101,38 +114,40 @@ export function ConditionArticle({
       )}
 
       {published && (
-        <>
-          <dl className="mt-8 grid gap-3 rounded-lg border border-border p-5 text-sm sm:grid-cols-2">
-            <div>
-              <dt className="text-muted-foreground">{t.author_}</dt>
-              <dd className="font-medium">{condition.author}</dd>
-            </div>
-            <div>
-              <dt className="text-muted-foreground">{t.readTimeLabel}</dt>
-              <dd className="font-medium">{t.readTime(condition.readTimeMinutes)}</dd>
-            </div>
-            <div>
-              <dt className="text-muted-foreground">{t.reviewed}</dt>
-              <dd className="font-medium">
-                <time dateTime={condition.reviewedDate}>
-                  {formatDate(condition.reviewedDate, locale)}
-                </time>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-muted-foreground">{t.nextReview}</dt>
-              <dd className="font-medium">
-                <time dateTime={condition.nextReviewDate}>
-                  {formatDate(condition.nextReviewDate, locale)}
-                </time>
-              </dd>
-            </div>
-          </dl>
+        <dl className="mt-8 grid gap-3 rounded-lg border border-border p-5 text-sm sm:grid-cols-2">
+          <div>
+            <dt className="text-muted-foreground">{t.author_}</dt>
+            <dd className="font-medium">{condition.author}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">{t.readTimeLabel}</dt>
+            <dd className="font-medium">{t.readTime(condition.readTimeMinutes)}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">{t.reviewed}</dt>
+            <dd className="font-medium">
+              <time dateTime={condition.reviewedDate}>
+                {formatDate(condition.reviewedDate, locale)}
+              </time>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">{t.nextReview}</dt>
+            <dd className="font-medium">
+              <time dateTime={condition.nextReviewDate}>
+                {formatDate(condition.nextReviewDate, locale)}
+              </time>
+            </dd>
+          </div>
+        </dl>
+      )}
 
+      {sections.length > 0 && (
+        <>
           <nav aria-label={t.sectionsLabel} className="mt-8 print:hidden">
             <h2 className="text-sm font-medium text-muted-foreground">{t.sectionsLabel}</h2>
             <ul className="mt-3 flex flex-wrap gap-2">
-              {(content.sections ?? []).map((section) => (
+              {sections.map((section) => (
                 <li key={section.key}>
                   <a
                     href={`#${section.key}`}
@@ -145,7 +160,7 @@ export function ConditionArticle({
             </ul>
           </nav>
 
-          {(content.sections ?? []).map((section) => (
+          {sections.map((section) => (
             <section
               key={section.key}
               id={section.key}

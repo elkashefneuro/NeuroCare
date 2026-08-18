@@ -1,4 +1,4 @@
-import { rawConditions } from "./conditions";
+import { rawConditions } from "./conditions/index";
 import { conditionSchema, type Condition } from "./schema";
 
 /**

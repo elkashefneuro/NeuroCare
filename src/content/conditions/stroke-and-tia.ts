@@ -1,6 +1,6 @@
-import type { Condition } from "./schema";
+import type { Condition } from "../schema";
 
-const stroke = {
+export const strokeAndTia = {
   slug: "stroke-and-tia",
   categoryId: "vascular",
   status: "published",
@@ -109,6 +109,26 @@ const stroke = {
         ],
       },
       {
+        key: "tests",
+        heading: "What to expect from your tests",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Scans after a stroke are quick, painless and done as an emergency. Knowing roughly what happens makes a frightening few hours a little easier for you and the family with you.",
+          },
+          {
+            type: "list",
+            items: [
+              "CT head: the first scan, usually within minutes of arrival. You lie flat on a moving table for under a minute. It shows bleeding immediately and decides whether clot-dissolving treatment is safe.",
+              "CT angiogram: the same machine with dye through a vein in your arm. The dye gives a warm flush and a metallic taste for a few seconds. It maps the blocked artery.",
+              "MRI brain: a longer scan, 20 to 40 minutes, inside a narrow tunnel that is loud. You wear ear protection and can speak to the staff throughout. It shows small or early strokes that CT misses. Tell staff about any metal implant, pacemaker or claustrophobia beforehand.",
+              "Carotid ultrasound: a probe with gel on your neck, about 15 minutes, no needles. It looks for narrowing in the neck arteries.",
+              "ECG and heart monitoring: sticky pads on the chest, sometimes for several days, to catch an irregular heart rhythm that could have thrown the clot.",
+            ],
+          },
+        ],
+      },
+      {
         key: "treat",
         heading: "Treat",
         blocks: [
@@ -127,6 +147,36 @@ const stroke = {
               "Antiplatelet medicine, or anticoagulation when the cause is atrial fibrillation.",
               "Blood-pressure and cholesterol treatment as the main long-term protection.",
               "Carotid surgery or stenting when a neck artery is significantly narrowed.",
+            ],
+          },
+        ],
+      },
+      {
+        key: "exercise",
+        heading: "Exercise that matters",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Movement is treatment after a stroke, not an optional extra. Getting out of bed safely and early, under supervision, is one of the strongest influences on how much function returns. Your therapy team sets the level; these are the priorities they work towards.",
+          },
+          {
+            type: "list",
+            items: [
+              "Sitting and standing balance first, with supervision, before any walking practice.",
+              "Repeated, specific practice with the weaker arm or leg. The brain rewires around the task you actually repeat, so hundreds of small repetitions beat a few large ones.",
+              "Walking practice daily, building distance gradually, with whatever aid the physiotherapist provides.",
+              "Gentle range-of-movement at the shoulder on the weak side, to protect a joint that dislocates easily when the muscles are weak.",
+              "Aerobic work — walking, a static bike — once you are steady, to lower the risk of a second stroke.",
+            ],
+          },
+          {
+            type: "callout",
+            tone: "note",
+            title: "Do this with your therapist, not alone",
+            items: [
+              "Falls are common in the first weeks and set recovery back.",
+              "Ask your physiotherapist which exercises are safe to do without supervision at home.",
+              "Stop and report any new chest pain, severe breathlessness or sudden change in weakness.",
             ],
           },
         ],
@@ -265,6 +315,26 @@ const stroke = {
         ],
       },
       {
+        key: "tests",
+        heading: "ما الذي تتوقعه من الفحوصات",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "الفحوصات بعد السكتة سريعة وغير مؤلمة وتُجرى كحالة طارئة. معرفة ما سيحدث تجعل ساعات مخيفة أسهل قليلاً عليك وعلى من يرافقك.",
+          },
+          {
+            type: "list",
+            items: [
+              "الأشعة المقطعية للرأس: أول فحص، غالباً خلال دقائق من الوصول. تستلقي على طاولة متحركة أقل من دقيقة. تُظهر النزيف فوراً وتحدد ما إذا كان دواء إذابة الجلطة آمناً.",
+              "الأشعة المقطعية للأوعية: نفس الجهاز مع صبغة عبر وريد في الذراع. تسبب الصبغة إحساساً بالدفء وطعماً معدنياً لثوانٍ. تحدد الشريان المسدود.",
+              "الرنين المغناطيسي للدماغ: فحص أطول، من 20 إلى 40 دقيقة، داخل نفق ضيق وصوته مرتفع. تُعطى واقياً للأذن ويمكنك التحدث إلى الفريق طوال الوقت. يُظهر السكتات الصغيرة أو المبكرة التي لا تظهر بالمقطعية. أخبر الفريق مسبقاً عن أي معدن مزروع أو منظم ضربات قلب أو رهاب الأماكن المغلقة.",
+              "الموجات فوق الصوتية لشرايين الرقبة: مجس مع جل على الرقبة، نحو 15 دقيقة، دون إبر. يبحث عن تضيّق في شرايين الرقبة.",
+              "تخطيط القلب ومراقبة النظم: لصقات على الصدر، أحياناً لعدة أيام، لالتقاط اضطراب في نظم القلب قد يكون مصدر الجلطة.",
+            ],
+          },
+        ],
+      },
+      {
         key: "treat",
         heading: "العلاج",
         blocks: [
@@ -283,6 +353,36 @@ const stroke = {
               "مضاد للصفيحات، أو مضاد للتخثر عند وجود رجفان أذيني.",
               "علاج ضغط الدم والكوليسترول باعتباره الحماية الأساسية على المدى الطويل.",
               "جراحة أو دعامة للشريان السباتي عند وجود تضيق شديد.",
+            ],
+          },
+        ],
+      },
+      {
+        key: "exercise",
+        heading: "التمارين المهمة",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "الحركة علاج بعد السكتة وليست إضافة اختيارية. النهوض من السرير بأمان وفي وقت مبكر، تحت إشراف، من أقوى العوامل المؤثرة في مقدار ما يعود من الوظائف. فريق العلاج الطبيعي يحدد المستوى، وهذه هي الأولويات التي يعملون نحوها.",
+          },
+          {
+            type: "list",
+            items: [
+              "توازن الجلوس ثم الوقوف أولاً، تحت إشراف، قبل أي تدريب على المشي.",
+              "تكرار تمارين محددة بالذراع أو الساق الأضعف. يعيد الدماغ تنظيم نفسه حول الحركة التي تكررها فعلاً، فمئات التكرارات الصغيرة أفضل من بضع تكرارات كبيرة.",
+              "تدريب يومي على المشي مع زيادة المسافة تدريجياً، باستخدام الوسيلة المساعدة التي يحددها أخصائي العلاج الطبيعي.",
+              "تحريك الكتف بلطف في الجانب الضعيف ضمن مدى الحركة، لحماية مفصل يسهل خلعه حين تضعف العضلات.",
+              "تمارين هوائية — المشي أو دراجة ثابتة — بعد أن يستقر توازنك، لتقليل خطر سكتة ثانية.",
+            ],
+          },
+          {
+            type: "callout",
+            tone: "note",
+            title: "افعل ذلك مع أخصائي العلاج الطبيعي لا بمفردك",
+            items: [
+              "السقوط شائع في الأسابيع الأولى ويؤخر التعافي.",
+              "اسأل أخصائي العلاج الطبيعي أي التمارين آمن دون إشراف في المنزل.",
+              "توقف وأبلغ عن أي ألم جديد في الصدر أو ضيق تنفس شديد أو تغيّر مفاجئ في الضعف.",
             ],
           },
         ],
@@ -335,87 +435,3 @@ const stroke = {
     ],
   },
 } satisfies Condition;
-
-const migraine = {
-  slug: "migraine",
-  categoryId: "headache",
-  status: "in-review",
-  author: "Dr Mohamed Ismaiel, Neurologist, Dubai",
-  reviewedDate: "2026-06-15",
-  nextReviewDate: "2027-06-15",
-  readTimeMinutes: 7,
-  sources: [],
-  en: {
-    title: "Migraine",
-    summary:
-      "A guide to migraine attacks, triggers, acute treatment and prevention is being prepared and is currently in clinical review.",
-    category: "Headache",
-    metaTitle: "Migraine — in clinical review — NeuroCare",
-    metaDescription:
-      "The NeuroCare migraine guide is in clinical review and is not yet published as patient guidance.",
-    disclaimer:
-      "This guide is in clinical review. No clinical guidance is published on this page yet. Speak to your doctor about migraine symptoms.",
-  },
-  ar: {
-    title: "الصداع النصفي",
-    summary:
-      "دليل عن نوبات الصداع النصفي ومحفزاتها وعلاجها والوقاية منها قيد الإعداد، وهو حالياً في مرحلة المراجعة الإكلينيكية.",
-    category: "الصداع",
-    metaTitle: "الصداع النصفي — قيد المراجعة — NeuroCare",
-    metaDescription:
-      "دليل الصداع النصفي في NeuroCare قيد المراجعة الإكلينيكية ولم يُنشر بعد كإرشاد للمرضى.",
-    disclaimer:
-      "هذا الدليل قيد المراجعة الإكلينيكية، ولم تُنشر فيه أي إرشادات طبية بعد. تحدّث مع طبيبك بشأن أعراض الصداع النصفي.",
-  },
-} satisfies Condition;
-
-const epilepsy = {
-  slug: "epilepsy-and-seizures",
-  categoryId: "seizures",
-  status: "in-review",
-  author: "Dr Mohamed Ismaiel, Neurologist, Dubai",
-  reviewedDate: "2026-06-15",
-  nextReviewDate: "2027-06-15",
-  readTimeMinutes: 9,
-  sources: [],
-  en: {
-    title: "Epilepsy and seizures",
-    summary:
-      "A guide to seizure types, first aid, diagnosis and treatment is being prepared and is currently in clinical review.",
-    category: "Seizure disorders",
-    metaTitle: "Epilepsy and seizures — in clinical review — NeuroCare",
-    metaDescription:
-      "The NeuroCare epilepsy and seizures guide is in clinical review and is not yet published as patient guidance.",
-    disclaimer:
-      "This guide is in clinical review. No clinical guidance is published on this page yet. Speak to your doctor about seizures.",
-  },
-  ar: {
-    title: "الصرع والنوبات",
-    summary:
-      "دليل عن أنواع النوبات والإسعافات الأولية والتشخيص والعلاج قيد الإعداد، وهو حالياً في مرحلة المراجعة الإكلينيكية.",
-    category: "اضطرابات النوبات",
-    metaTitle: "الصرع والنوبات — قيد المراجعة — NeuroCare",
-    metaDescription:
-      "دليل الصرع والنوبات في NeuroCare قيد المراجعة الإكلينيكية ولم يُنشر بعد كإرشاد للمرضى.",
-    disclaimer:
-      "هذا الدليل قيد المراجعة الإكلينيكية، ولم تُنشر فيه أي إرشادات طبية بعد. تحدّث مع طبيبك بشأن النوبات.",
-  },
-} satisfies Condition;
-
-export const rawConditions: Condition[] = [stroke, migraine, epilepsy];
-
-/**
- * Runtime content used by the app.
- *
- * Deliberately does NOT re-run schema validation: `validateConditions()` in
- * ./validate.ts is a build-time gate (vite.config.ts + `bun run check:content`),
- * so a schema failure stops a release rather than throwing inside a request.
- * Validating here instead would (a) ship zod to every browser and (b) turn a
- * time-based rule such as the review-due check into a site-wide 500 the moment
- * a guide's next review date passed in production.
- */
-export const conditions: Condition[] = rawConditions;
-
-export function getCondition(slug: string): Condition | undefined {
-  return conditions.find((condition) => condition.slug === slug);
-}

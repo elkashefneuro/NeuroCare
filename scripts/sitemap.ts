@@ -1,4 +1,4 @@
-import { rawConditions } from "../src/content/conditions";
+import { rawConditions } from "../src/content/conditions/index";
 
 type SitemapEntry = { path: string; lastmod: string; alternates: Array<[string, string]> };
 

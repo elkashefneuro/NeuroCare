@@ -137,7 +137,7 @@ export function LibraryIndex({
                       </span>
                       <span className="mt-3 block text-xs uppercase tracking-wide text-muted-foreground">
                         {content.category}
-                        {published ? ` · ${t.readTime(condition.readTimeMinutes)}` : ""}
+                        {` · ${t.readTime(condition.readTimeMinutes)}`}
                       </span>
                     </>,
                     "block rounded-lg border border-border p-5 transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",

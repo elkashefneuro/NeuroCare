@@ -8,6 +8,13 @@ export const categories = [
   { id: "vascular", en: "Vascular", ar: "الأوعية الدموية" },
   { id: "headache", en: "Headache", ar: "الصداع" },
   { id: "seizures", en: "Seizure disorders", ar: "اضطرابات النوبات" },
+  { id: "demyelinating", en: "Multiple sclerosis", ar: "التصلب المتعدد" },
+  { id: "spine", en: "Neck and back", ar: "الرقبة والظهر" },
+  { id: "neuromuscular", en: "Nerve and muscle", ar: "الأعصاب والعضلات" },
+  { id: "balance", en: "Dizziness and balance", ar: "الدوخة والتوازن" },
+  { id: "cognition", en: "Memory and thinking", ar: "الذاكرة والإدراك" },
+  { id: "sleep", en: "Sleep", ar: "النوم" },
+  { id: "brain-health", en: "Brain and mental health", ar: "صحة الدماغ والنفس" },
 ] as const;
 
 export const ui = {
@@ -28,6 +35,9 @@ export const ui = {
     statusPublished: "Published",
     statusReview: "In clinical review",
     reviewNotice: "This guide is in clinical review. It is not yet published as patient guidance.",
+    draftNoticeTitle: "Draft — not yet approved patient guidance",
+    draftNotice:
+      "This guide has been drafted but not yet signed off by the clinic. Treat everything below as a working draft, not as advice for your own care, and speak to your doctor before acting on it.",
     readTime: (n: number) => `${n} min read`,
     readTimeLabel: "Reading time",
     author_: "Author",
@@ -66,6 +76,9 @@ export const ui = {
     statusPublished: "منشور",
     statusReview: "قيد المراجعة الإكلينيكية",
     reviewNotice: "هذا الدليل قيد المراجعة الإكلينيكية ولم يُنشر بعد كإرشاد للمرضى.",
+    draftNoticeTitle: "مسودة — لم تُعتمد بعد كإرشاد للمرضى",
+    draftNotice:
+      "تمت كتابة هذا الدليل ولم تعتمده العيادة بعد. اعتبر كل ما يلي مسودة عمل وليس إرشاداً لحالتك، وتحدث مع طبيبك قبل التصرف بناءً عليه.",
     readTime: (n: number) => `قراءة ${n} دقائق`,
     readTimeLabel: "مدة القراءة",
     author_: "المؤلف",

@@ -4,11 +4,24 @@ export const isoDate = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be ISO format YYYY-MM-DD");
 
-export const sectionKeys = ["understand", "recognise", "assess", "treat", "live", "ask"] as const;
+/**
+ * The fixed spine of every guide, in reading order. Each published guide answers
+ * all eight, so a patient who has read one knows where to look in the next.
+ */
+export const sectionKeys = [
+  "understand",
+  "recognise",
+  "assess",
+  "tests",
+  "treat",
+  "exercise",
+  "live",
+  "ask",
+] as const;
 
 export type SectionKey = (typeof sectionKeys)[number];
 
-/** A block of body content inside one of the six guide sections. */
+/** A block of body content inside one of the guide sections. */
 export const blockSchema = z.union([
   z.object({ type: z.literal("paragraph"), text: z.string().min(1) }),
   z.object({ type: z.literal("list"), items: z.array(z.string().min(1)).min(1) }),
@@ -46,7 +59,18 @@ export const sourceSchema = z.object({
 /** Shape of a condition. Structural rules only — see `conditionSchema` for the publish gate. */
 export const conditionBaseSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
-  categoryId: z.enum(["vascular", "headache", "seizures"]),
+  categoryId: z.enum([
+    "vascular",
+    "headache",
+    "seizures",
+    "demyelinating",
+    "spine",
+    "neuromuscular",
+    "balance",
+    "cognition",
+    "sleep",
+    "brain-health",
+  ]),
   status: z.enum(["published", "in-review"]),
   author: z.string().min(1),
   reviewedDate: isoDate,
@@ -67,6 +91,25 @@ export const conditionBaseSchema = z.object({
  */
 export const conditionSchema = (now: Date = new Date()) =>
   conditionBaseSchema.superRefine((condition, ctx) => {
+    // Structural rules for any guide that has been drafted, published or not —
+    // in-review drafts are rendered on the site, so a duplicated or misspelled
+    // section key needs to fail the build now, not at publish time.
+    for (const locale of ["en", "ar"] as const) {
+      const sections = condition[locale].sections;
+      if (!sections) continue;
+      const seen = new Set<string>();
+      for (const section of sections) {
+        if (seen.has(section.key)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: [locale, "sections"],
+            message: `Duplicate "${section.key}" section in ${locale}.`,
+          });
+        }
+        seen.add(section.key);
+      }
+    }
+
     if (condition.status !== "published") return;
 
     const requirePublished = (path: (string | number)[], message: string) =>
@@ -80,7 +123,7 @@ export const conditionSchema = (now: Date = new Date()) =>
       if (!sections || sections.length !== sectionKeys.length) {
         requirePublished(
           [locale, "sections"],
-          `Published content requires all six sections in ${locale}.`,
+          `Published content requires all ${sectionKeys.length} sections in ${locale}.`,
         );
         continue;
       }

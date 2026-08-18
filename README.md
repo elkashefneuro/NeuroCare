@@ -54,7 +54,35 @@ bun run build
 ```
 
 `check:content` is the publish gate for clinical content: a guide marked
-`published` must carry all six sections in both languages, cite at least one
+`published` must carry all eight sections in both languages, cite at least one
 source, and sit inside its review window. The same gate runs as a Vite plugin, so
 a failing guide stops the build rather than reaching patients. It deliberately
-does **not** run at request time — see `src/content/conditions.ts`.
+does **not** run at request time — see `src/content/conditions/index.ts`.
+
+## Content
+
+One guide per file in `src/content/conditions/`, registered in
+`src/content/conditions/index.ts`. Every guide answers the same eight sections,
+in this order, in both English and Arabic:
+
+| Key          | Covers                                             |
+| ------------ | -------------------------------------------------- |
+| `understand` | What the condition is                              |
+| `recognise`  | Common presentation, plus red-flag callouts        |
+| `assess`     | Tools of diagnosis                                 |
+| `tests`      | What to expect from an MRI, EEG, NCV or other test |
+| `treat`      | Management and medications                         |
+| `exercise`   | Exercises that matter                              |
+| `live`       | Living with it                                     |
+| `ask`        | Questions to ask your doctor                       |
+
+### Publishing a draft
+
+`status: "in-review"` guides render their full body behind a prominent draft
+banner and stay `noindex`; they are excluded from the sitemap and emit no
+structured data. They are drafts for clinical review, not patient guidance.
+
+To publish one, change `status` to `"published"` and set `reviewedDate` to the
+date you signed it off. The build gate then enforces all eight sections in both
+languages, at least one cited source, and a `nextReviewDate` in the future — so
+a guide that is not ready cannot reach patients by accident.
