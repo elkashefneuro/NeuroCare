@@ -30,7 +30,9 @@ function Blocks({ blocks }: { blocks: Block[] }) {
           <div
             key={index}
             className={`mt-6 rounded-lg border p-5 ${
-              emergency ? "border-destructive bg-destructive/5" : "border-border bg-secondary"
+              emergency
+                ? "border-2 border-destructive bg-destructive/[0.06]"
+                : "border-border bg-secondary"
             }`}
           >
             <p
@@ -42,7 +44,10 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             </p>
             <ul className="mt-3 space-y-2 ps-5 text-base leading-8">
               {block.items.map((item) => (
-                <li key={item} className="list-disc marker:text-destructive">
+                <li
+                  key={item}
+                  className={`list-disc ${emergency ? "marker:text-destructive" : "marker:text-accent"}`}
+                >
                   {item}
                 </li>
               ))}
@@ -90,12 +95,9 @@ export function ConditionArticle({
         <aside
           role="note"
           aria-labelledby="draft-notice-heading"
-          className="mt-6 rounded-lg border-2 border-destructive bg-destructive/5 p-5"
+          className="mt-6 rounded-lg border-2 border-warning bg-warning/[0.07] p-5"
         >
-          <p
-            id="draft-notice-heading"
-            className="font-serif text-lg font-semibold text-destructive"
-          >
+          <p id="draft-notice-heading" className="font-serif text-lg font-semibold text-warning">
             {hasDraftBody ? t.draftNoticeTitle : t.statusReview}
           </p>
           <p className="mt-2 text-sm leading-7 text-foreground">
@@ -107,7 +109,7 @@ export function ConditionArticle({
       {published && reviewOverdue && (
         <p
           role="status"
-          className="mt-6 rounded-lg border border-destructive bg-destructive/5 p-4 text-sm font-medium text-foreground"
+          className="mt-6 rounded-lg border border-warning bg-warning/[0.07] p-4 text-sm font-medium text-foreground"
         >
           {t.reviewOverdue}
         </p>
@@ -165,7 +167,7 @@ export function ConditionArticle({
               key={section.key}
               id={section.key}
               aria-labelledby={`${section.key}-heading`}
-              className="mt-12 scroll-mt-8 border-t border-border pt-8"
+              className="mt-12 scroll-mt-24 border-t border-border pt-8"
             >
               <h2
                 id={`${section.key}-heading`}

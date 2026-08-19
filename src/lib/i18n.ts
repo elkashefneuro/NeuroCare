@@ -22,6 +22,7 @@ export const ui = {
     siteName: "NeuroCare",
     libraryHeading: "Neurology explained",
     tagline: "Patient education from a neurology clinic in Dubai",
+    strapline: "Trusted neurology guidance",
     author: "Dr Mohamed Ismaiel, Neurologist, Dubai",
     skipToContent: "Skip to main content",
     switchLanguage: "العربية",
@@ -46,6 +47,9 @@ export const ui = {
     sources: "Sources",
     disclaimer: "Patient information",
     emergency: "Emergency in the UAE: call 998",
+    emergencyStrip:
+      "New weakness, speech or vision change, or a seizure lasting 5 minutes: call 998.",
+    evidenceBased: "Guideline informed",
     backToLibrary: "Back to the library",
     print: "Print these questions",
     intro:
@@ -63,6 +67,7 @@ export const ui = {
     siteName: "NeuroCare",
     libraryHeading: "طب الأعصاب بلغة واضحة",
     tagline: "تثقيف المرضى من عيادة أعصاب في دبي",
+    strapline: "رعاية عصبية موثوقة",
     author: "د. محمد إسماعيل، استشاري الأعصاب، دبي",
     skipToContent: "تخطَّ إلى المحتوى الرئيسي",
     switchLanguage: "English",
@@ -87,6 +92,8 @@ export const ui = {
     sources: "المصادر",
     disclaimer: "معلومات للمرضى",
     emergency: "الطوارئ في الإمارات: اتصل بالرقم 998",
+    emergencyStrip: "ضعف جديد أو تغير الكلام أو الرؤية، أو نوبة تستمر 5 دقائق: اتصل بالرقم 998.",
+    evidenceBased: "مستند إلى الإرشادات",
     backToLibrary: "العودة إلى المكتبة",
     print: "اطبع هذه الأسئلة",
     intro:
