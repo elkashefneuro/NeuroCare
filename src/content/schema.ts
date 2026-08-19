@@ -48,8 +48,8 @@ export const localeContentSchema = z.object({
   metaTitle: z.string().min(1).max(70),
   metaDescription: z.string().min(1).max(180),
   disclaimer: z.string().min(1),
-  /** Four or five takeaways for a reader who gets no further than the top of the page. */
-  keyPoints: z.array(z.string().min(1)).min(1).optional(),
+  /** Takeaways for a reader who gets no further than the top of the page. */
+  keyPoints: z.array(z.string().min(1)).min(3).optional(),
   sections: z.array(sectionSchema).optional(),
 });
 
@@ -121,6 +121,13 @@ export const conditionSchema = (now: Date = new Date()) =>
       requirePublished(["sources"], "Published content must cite at least one source.");
     }
     for (const locale of ["en", "ar"] as const) {
+      const keyPoints = condition[locale].keyPoints;
+      if (!keyPoints || keyPoints.length < 3) {
+        requirePublished(
+          [locale, "keyPoints"],
+          `Published content requires a "What you need to know" summary in ${locale}.`,
+        );
+      }
       const sections = condition[locale].sections;
       if (!sections || sections.length !== sectionKeys.length) {
         requirePublished(

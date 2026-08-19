@@ -56,7 +56,7 @@ export const ui = {
       "Short, carefully reviewed explanations of common neurological conditions, written for patients and families in English and Arabic.",
     conditionsHeading: "Conditions",
     sectionsLabel: "On this page",
-    keyPointsLabel: "Key points",
+    keyPointsLabel: "What you need to know",
     results: (n: number) => (n === 1 ? "1 condition shown" : `${n} conditions shown`),
     reviewOverdue:
       "This guide has passed its scheduled review date and is being updated. Check anything time-sensitive with your doctor.",
@@ -101,7 +101,7 @@ export const ui = {
       "شروحات موجزة ومراجَعة بعناية لأكثر الحالات العصبية شيوعاً، مكتوبة للمرضى وذويهم بالعربية والإنجليزية.",
     conditionsHeading: "الحالات",
     sectionsLabel: "في هذه الصفحة",
-    keyPointsLabel: "أهم النقاط",
+    keyPointsLabel: "ما تحتاج معرفته",
     results: (n: number) => `عدد الحالات المعروضة: ${n}`,
     reviewOverdue:
       "تجاوز هذا الدليل تاريخ مراجعته المقرر وهو قيد التحديث. راجع طبيبك بشأن أي معلومة حساسة زمنياً.",
