@@ -14,6 +14,7 @@ function buildHaystack(condition: Condition): string {
   for (const locale of ["en", "ar"] as const) {
     const content = condition[locale];
     parts.push(content.title, content.summary, content.category);
+    parts.push(...(content.keyPoints ?? []));
     for (const section of content.sections ?? []) {
       parts.push(section.heading, ...section.blocks.map(blockText));
     }

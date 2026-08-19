@@ -27,6 +27,12 @@ export const strokeAndTia = {
     summary:
       "How a stroke and a transient ischaemic attack happen, how to recognise them with BE-FAST, and what to do in the first minutes.",
     category: "Vascular",
+    keyPoints: [
+      "A stroke is a medical emergency: brain cells begin to die within minutes, so treatment is judged in minutes, not hours.",
+      "Use BE-FAST — Balance, Eyes, Face, Arms, Speech, Time. Any single sudden sign is enough to call 998.",
+      "A TIA recovers fully but is a warning; the risk of a disabling stroke is highest in the days that follow.",
+      "Long-term protection comes from daily preventive medicines and control of blood pressure, cholesterol and diabetes.",
+    ],
     metaTitle: "Stroke and TIA — NeuroCare",
     metaDescription:
       "Patient guide to stroke and transient ischaemic attack: BE-FAST recognition, emergency steps in the UAE, assessment, treatment and recovery.",
@@ -233,6 +239,12 @@ export const strokeAndTia = {
     summary:
       "كيف تحدث السكتة الدماغية والنوبة الإقفارية العابرة، وكيف تتعرف عليها باستخدام BE-FAST، وما الذي يجب فعله في الدقائق الأولى.",
     category: "الأوعية الدموية",
+    keyPoints: [
+      "السكتة الدماغية حالة طارئة؛ تبدأ خلايا الدماغ بالموت خلال دقائق، ولذلك يُقاس العلاج بالدقائق لا بالساعات.",
+      "استخدم BE-FAST: التوازن، العينان، الوجه، الذراعان، الكلام، الوقت. ظهور أي علامة مفاجئة يكفي للاتصال بالرقم 998.",
+      "النوبة الإقفارية العابرة تزول أعراضها تماماً لكنها إنذار، وخطر السكتة المعطِّلة يكون أعلى في الأيام التالية.",
+      "الحماية على المدى الطويل تأتي من الأدوية الوقائية اليومية وضبط ضغط الدم والكوليسترول والسكري.",
+    ],
     metaTitle: "السكتة الدماغية والنوبة العابرة — NeuroCare",
     metaDescription:
       "دليل للمرضى عن السكتة الدماغية والنوبة الإقفارية العابرة: التعرف بـ BE-FAST، خطوات الطوارئ في الإمارات، التقييم والعلاج والتعافي.",

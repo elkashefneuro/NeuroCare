@@ -48,6 +48,8 @@ export const localeContentSchema = z.object({
   metaTitle: z.string().min(1).max(70),
   metaDescription: z.string().min(1).max(180),
   disclaimer: z.string().min(1),
+  /** Four or five takeaways for a reader who gets no further than the top of the page. */
+  keyPoints: z.array(z.string().min(1)).min(1).optional(),
   sections: z.array(sectionSchema).optional(),
 });
 

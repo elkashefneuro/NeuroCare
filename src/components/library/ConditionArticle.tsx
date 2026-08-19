@@ -73,6 +73,7 @@ export function ConditionArticle({
   const published = condition.status === "published";
   const reviewOverdue = isReviewOverdue(condition);
   const sections = content.sections ?? [];
+  const keyPoints = content.keyPoints ?? [];
   // A drafted but unapproved guide still renders its body, behind a prominent
   // notice, so the clinic can review it in place. These pages stay `noindex`.
   const hasDraftBody = !published && sections.length > 0;
@@ -113,6 +114,24 @@ export function ConditionArticle({
         >
           {t.reviewOverdue}
         </p>
+      )}
+
+      {keyPoints.length > 0 && (
+        <section
+          aria-labelledby="key-points-heading"
+          className="mt-8 rounded-lg border border-accent/30 bg-accent/[0.04] p-5"
+        >
+          <h2 id="key-points-heading" className="font-serif text-lg font-semibold text-primary">
+            {t.keyPointsLabel}
+          </h2>
+          <ul className="mt-3 space-y-2 ps-5 text-base leading-8">
+            {keyPoints.map((point) => (
+              <li key={point} className="list-disc marker:text-accent">
+                {point}
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {published && (
